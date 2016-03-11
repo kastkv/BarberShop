@@ -1,6 +1,21 @@
 require 'rubygems'
 require 'sinatra'
 require 'sinatra/reloader'
+require 'sqlite3'
+
+configure do 
+	@db = SQLite3::Database.new 'barbershop.db' #создать новое подключение к barbershop.db (если бд есть то она будет открыта, нет то тогда будет создана в текущем каталоге программы)
+	@db.execute 'CREATE TABLE IF NOT EXISTS 
+	"Users" 
+	("id" INTEGER PRIMARY KEY AUTOINCREMENT, 
+		"username" TEXT,
+		"phone" TEXT,
+		"datestamp" TEXT,
+		"barber" TEXT,
+		"color" TEXT
+		)' # ; не обязательно, т.к. execute подразумевает, что будет выполнена 1 команда
+
+end
 
 get '/' do
 	erb "Hello! <a href=\"https://github.com/bootstrap-ruby/sinatra-bootstrap\">Original</a> pattern has been modified for <a href=\"http://rubyschool.us/\">Ruby School</a>"			
