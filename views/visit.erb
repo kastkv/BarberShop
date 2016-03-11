@@ -37,9 +37,10 @@ $(function() {
   <div class="form-group">
     <label>Ваш парикмахер:</label>
     <select name="barber" class="form-control">
-      <option>Jessie Pinkman</option>
-      <option>Walter White</option>
-      <option>Gus Fring</option>
+      <option <%= @barber == 'Jessie Pinkman' ? 'selected' : '' %>>Jessie Pinkman</option>
+      <option <%= @barber == 'Walter White' ? 'selected' : '' %>>Walter White</option>  <!-- то что написано в 'selected' любое руби выражение будет вычисляться и подставляться в это место-->
+      <!--у нас есть переменная @barber, нужно ее сравнить,  tckb true то выдавать 'selected', tckb false то пустую строку-->
+      <option <%= @barber == 'Gus Fring' ? 'selected' : '' %>>Gus Fring</option>
     </select>
   </div>
 
