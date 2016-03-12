@@ -5,6 +5,8 @@ require 'sqlite3'
 
 def get_db   # в концце программы почемуто не работает
 	return SQLite3::Database.new 'barbershop.db'
+	db.results_as_hash = true #  возвращаем в виде хеша
+	return db
 end	
 
 configure do # вызывается при инициализации приложения(т.е. тогда когда мы изменили код, а не когда мы нажали обновить)
@@ -68,3 +70,7 @@ post '/visit' do
 	erb "OK, username is #{@username}, #{@phone}, #{@datetime}, #{@barber}, #{@color}"
 
 end
+# Вывод БД
+get '/showusers' do
+	erb "Hello World"
+end	
