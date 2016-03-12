@@ -3,9 +3,14 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'sqlite3'
 
-configure do 
-	@db = SQLite3::Database.new 'barbershop.db' #создать новое подключение к barbershop.db (если бд есть то она будет открыта, нет то тогда будет создана в текущем каталоге программы)
-	@db.execute 'CREATE TABLE IF NOT EXISTS 
+def get_db   # в концце программы почемуто не работает
+	return SQLite3::Database.new 'barbershop.db'
+end	
+
+configure do # вызывается при инициализации приложения(т.е. тогда когда мы изменили код, а не когда мы нажали обновить)
+	#@db = SQLite3::Database.new 'barbershop.db' #создать новое подключение к barbershop.db (если бд есть то она будет открыта, нет то тогда будет создана в текущем каталоге программы)
+	db = get_db
+	db.execute 'CREATE TABLE IF NOT EXISTS 
 	"Users" 
 	("id" INTEGER PRIMARY KEY AUTOINCREMENT, 
 		"username" TEXT,
@@ -47,6 +52,18 @@ post '/visit' do
 	if @error != ''
 		return erb :visit
 	end
+
+	db = get_db
+	db.execute 'insert into
+		Users
+		(
+			username,
+			phone,
+			datestamp,
+			barber,
+			color
+		)	
+		values (?, ?, ?, ?, ?)', [@username, @phone, @datetime, @barber, @color]    
 
 	erb "OK, username is #{@username}, #{@phone}, #{@datetime}, #{@barber}, #{@color}"
 
